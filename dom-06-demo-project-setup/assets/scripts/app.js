@@ -1,14 +1,10 @@
 const addMovieModal = document.getElementById("add-modal");
-
 const startAddMovieButton = document.querySelector("header button");
-
 const backdrop = document.querySelector("#backdrop");
-
 const cancelModalButton = addMovieModal.querySelector(".btn--passive");
-
 const addModalButton = cancelModalButton.nextElementSibling;
-
 const userInputs = addMovieModal.querySelectorAll("input");
+const movies = [];
 
 const toggleMovieModal = () => {
     addMovieModal.classList.toggle("visible");
@@ -20,8 +16,15 @@ const toggleBackdrop = () => {
 }
 
 const closeModal = () => {
-addMovieModal.classList.remove("visible");
-backdrop.classList.remove("visible");
+    addMovieModal.classList.remove("visible");
+    backdrop.classList.remove("visible");
+    clearMovieInputs();
+}
+
+const clearMovieInputs = () => {
+    for (const input of userInputs) {
+        input.value = '';
+    }
 }
 
 const addMoviewModalHandler = () => {
@@ -34,12 +37,25 @@ if (titleValue.trim() === "" ||
     ratingValue.trim() === "" ||
     +ratingValue < 1 ||
     +ratingValue > 5) {
-        alert("Please enter valid values (rating between 1 and 5)")
-    }
-}
+        alert("Please enter valid values (rating between 1 and 5)");
+        return;
+    };
+
+    const newMovie = {
+        title: titleValue,
+        image: imageUrlValue,
+        rating: ratingValue
+    };
+
+    movies.push(newMovie);
+    console.log(movies);
+    closeModal();
+    clearMovieInputs();
+};
+
+
 
 startAddMovieButton.addEventListener("click", toggleMovieModal);
-// startAddMovieButton.addEventListener("click", toggleBackdrop);
 cancelModalButton.addEventListener("click", closeModal);
 backdrop.addEventListener("click", closeModal);
 addModalButton.addEventListener("click", addMoviewModalHandler)
